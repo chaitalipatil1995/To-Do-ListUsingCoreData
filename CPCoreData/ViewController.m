@@ -39,6 +39,7 @@
     
 }
 
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -173,62 +174,91 @@
 
 
 
--(void)deleteEntry:(NSIndexPath *)indexPath{
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        [self deleteEntry:indexPath];
+    }
+    else{
+        
+        
+    }
+}
+
+            
+-(void)deleteEntry:(NSIndexPath *)indexPath {
+    
+    NSManagedObjectContext *context = [self managedObjectContext];
     
     if (segmentControl.selectedSegmentIndex == 0) {
-        NSManagedObjectContext *context= [self managedObjectContext];
         
         [context deleteObject:[tvArray objectAtIndex:indexPath.row]];
         
         NSError *error;
-        if([context save:&error]){
+        if ([context save:&error]) {
             NSLog(@"Deleted");
+            
+            
             [self fetchDeviceFromCoreData];
+            
+            [self.tableView reloadData];
         }
+        else {
+            
+            
+            NSLog(@"%@",error.localizedDescription);
+            
+        }
+        
+    }
+    else if (segmentControl.selectedSegmentIndex == 1) {
+        
+        [context deleteObject:[mobileArray objectAtIndex:indexPath.row]];
+        
+        NSError *error;
+        if ([context save:&error]) {
+            NSLog(@"Deleted");
+            
+            
+            [self fetchDeviceFromCoreData];
+            
+            [self.tableView reloadData];
+            
+        }
+        else {
+            
+            
+            NSLog(@"%@",error.localizedDescription);
+            
+        }
+        
+    }
+    else if (segmentControl.selectedSegmentIndex == 2) {
+        
+        [context deleteObject:[acArray objectAtIndex:indexPath.row]];
+        
+        NSError *error;
+        if ([context save:&error]) {
+            NSLog(@"Deleted");
+            
+            
+            
+            [self fetchDeviceFromCoreData];
+            
+            [self.tableView reloadData];
+            
+        }
+        else {
+            
+            NSLog(@"%@",error.localizedDescription);
+            
+        }
+        
     }
     
-        else if (segmentControl.selectedSegmentIndex == 1){
-            NSManagedObjectContext *context= [self managedObjectContext];
-            
-            [context deleteObject:[mobileArray objectAtIndex:indexPath.row]];
-            
-            NSError *error;
-            if([context save:&error]){
-                NSLog(@"Deleted");
-                [self fetchDeviceFromCoreData];
-            }
-
-        }
-    
-    else if (segmentControl.selectedSegmentIndex==2){
-            NSManagedObjectContext *context= [self managedObjectContext];
-            
-            [context deleteObject:[acArray objectAtIndex:indexPath.row]];
-            
-            NSError *error;
-            if([context save:&error]){
-                NSLog(@"Deleted");
-                [self fetchDeviceFromCoreData];
-            }
-        }
     
 }
-
-            
-        
-
-    
-
-    
-
-
-    
-
-
-
-
-
 
 
 

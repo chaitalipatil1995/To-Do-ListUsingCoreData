@@ -20,7 +20,8 @@
     
     id delegate = [[UIApplication sharedApplication]delegate];
     
-    if ([delegate performSelector:@selector(managedObjectContext)]) {        context = [delegate managedObjectContext];
+    if ([delegate performSelector:@selector(managedObjectContext)]) {
+        context = [delegate managedObjectContext];
 }
     return context;
 }
@@ -30,8 +31,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-
-    
+    [self.textFieldThree setKeyboardType:UIKeyboardTypeNumberPad];
+ 
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,27 +49,59 @@
     // Pass the selected object to the new view controller.
 }
 */
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    if (textField == self.textFieldOne) {
+        [self.textFieldTwo becomeFirstResponder];
+    }
+    else if (textField == self.textFieldTwo){
+        [self.textFieldThree becomeFirstResponder];
+    }
+    return YES;
+}
 
 - (IBAction)segmentAction:(id)sender {
     
     localSegmentControl = sender;
-    NSInteger i;
-    switch (localSegmentControl.selectedSegmentIndex == i) {
-        case 0:
-            i=0;
-            [self saveAction:sender];
-            break;
-        case 1:
-            i=1;
-            [self saveAction:sender];
-            break;
-            case 2:
-            i=2;
-            [self saveAction:sender];
-            break;
-        default:
-            break;
+
+    if (localSegmentControl.selectedSegmentIndex == 0) {
+        
+        
+        [self.textFieldOne setPlaceholder:@"Enter Company name:"];
+        
+        [self.textFieldTwo setPlaceholder:@"Enter Model:"];
+        
+        [self.textFieldThree setPlaceholder:@"Enter Price:"];
+        
+        
+        [self saveAction:sender];
     }
+    else if (localSegmentControl.selectedSegmentIndex == 1) {
+        
+        
+        [self.textFieldOne setPlaceholder:@"Enter Company name:"];
+        
+        [self.textFieldTwo setPlaceholder:@"Enter Model:"];
+        
+        [self.textFieldThree setPlaceholder:@"Enter Price:"];
+        
+        [self saveAction:sender];
+    }
+    else if (localSegmentControl.selectedSegmentIndex == 2) {
+        
+        
+        
+        [self.textFieldOne setPlaceholder:@"Enter Company name:"];
+        
+        [self.textFieldTwo setPlaceholder:@"Enter Price:"];
+        
+        //[self.textFieldThree setPlaceholder:@"Enter Price:"];
+        
+        
+        [self saveAction:sender];
+    }
+    
+
     
 }
 
@@ -96,15 +129,27 @@
                     
                     if ([context save:&error]) {
                         NSLog(@"Saved");
-                        
+                        [self showAlertWithTitle:@"ok" message:[NSString stringWithFormat:@"Data saved successfully"]];
+
                         [self.navigationController popViewControllerAnimated:YES];
                     }
                     else {
                         NSLog(@"Unable to save : %@",error.localizedDescription);
+                        [self showAlertWithTitle:@"Error" message:[NSString stringWithFormat:@"%@",error.localizedDescription]];
+
                     }
                     
                 }
+                else{
+                    [self showAlertWithTitle:@"Error" message:@"Enter price"];
+                }
             }
+            else{
+                [self showAlertWithTitle:@"Error" message:@"Enter model name"];
+            }
+        }
+        else{
+            [self showAlertWithTitle:@"Error" message:@"Enter comapany name"];
         }
     }
     
@@ -126,17 +171,32 @@
                     
                     if ([context save:&error]) {
                         NSLog(@"Saved");
+                        [self showAlertWithTitle:@"ok" message:[NSString stringWithFormat:@"Data saved successfully"]];
+
                         
                         [self.navigationController popViewControllerAnimated:YES];
                     }
                     else {
                         NSLog(@"Unable to save : %@",error.localizedDescription);
+                        [self showAlertWithTitle:@"Error" message:[NSString stringWithFormat:@"%@",error.localizedDescription]];
                     }
                     
                 }
+                else{
+                    [self showAlertWithTitle:@"Error" message:@"Enter price"];
+                }
+            }
+            else{
+                [self showAlertWithTitle:@"Error" message:@"Enter model name"];
             }
         }
-    }
+        else{
+            [self showAlertWithTitle:@"Error" message:@"Enter comapany name"];
+        }
+
+}
+    
+
 
     else if(localSegmentControl.selectedSegmentIndex == 2 ) {
         
@@ -156,31 +216,48 @@
                     
                     if ([context save:&error]) {
                         NSLog(@"Saved");
-                        
+                        [self showAlertWithTitle:@"ok" message:[NSString stringWithFormat:@"Data saved successfully"]];
+
                         [self.navigationController popViewControllerAnimated:YES];
                     }
                     else {
                         NSLog(@"Unable to save : %@",error.localizedDescription);
+                        [self showAlertWithTitle:@"Error" message:[NSString stringWithFormat:@"%@",error.localizedDescription]];
+
                     }
                 }
+            
+        }
+        else{
+            [self showAlertWithTitle:@"Error" message:@"Enter model name"];
             }
         }
+    else{
+        [self showAlertWithTitle:@"Error" message:@"Enter comapany name"];
     }
+
+}
+
+
 
 - (IBAction)cancleAction:(id)sender {
     
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField{
-    [textField resignFirstResponder];
-    if (textField == self.textFieldOne) {
-        [self.textFieldTwo becomeFirstResponder];
-    }
-    else if (textField == self.textFieldTwo){
-        [self.textFieldThree becomeFirstResponder];
-    }
-    return YES;
+-(void) showAlertWithTitle:(NSString *)title
+                   message:(NSString *)message
+{
+    
+    UIAlertController *alert=[UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *OK = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"ok");
+        
+    }];
+    
+    [alert addAction:OK];
+    [self presentViewController:alert animated:YES completion:nil];
 }
+
 
 @end

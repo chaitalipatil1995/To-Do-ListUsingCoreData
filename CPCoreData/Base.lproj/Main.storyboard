@@ -92,7 +92,7 @@
                                 <rect key="frame" x="50" y="567" width="500" height="29"/>
                                 <color key="backgroundColor" red="1" green="0.73261355307813081" blue="0.3997069060642342" alpha="1" colorSpace="calibratedRGB"/>
                                 <segments>
-                                    <segment title="Tv" width="157"/>
+                                    <segment title="Tv"/>
                                     <segment title="Mobile"/>
                                     <segment title="Ac"/>
                                 </segments>
@@ -101,7 +101,7 @@
                                 </connections>
                             </segmentedControl>
                         </subviews>
-                        <color key="backgroundColor" red="0.99417617489154941" green="1" blue="0.446434618723627" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.95731858056374974" green="1" blue="0.87562410606756869" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="U60-H1-d72" secondAttribute="bottom" constant="5" id="0ME-6F-jb1"/>
                             <constraint firstAttribute="trailingMargin" secondItem="U60-H1-d72" secondAttribute="trailing" constant="30" id="KXo-Ud-d0b"/>
